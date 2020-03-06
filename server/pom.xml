@@ -32,7 +32,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.academiadecodigo.apiores.bootstrap.Main</mainClass>
+                            <mainClass>src/main/java/org/academiadecodigo/apiores/bootstrap/Main.java</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
