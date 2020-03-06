@@ -9,14 +9,11 @@ public class Main {
         ReadFile readFile = new ReadFile();
 
         try{
-
-            readFile.menu(readFile.read());
-
+            readFile.startQuestions();
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
 
 
     }
-
 }

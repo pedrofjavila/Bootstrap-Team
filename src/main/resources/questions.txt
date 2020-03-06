@@ -3,3 +3,12 @@ How many pillars are in OOP?
 4
 3
 5
+4
+The for pillars are encapsulation, abstraction, inheritance, and polymorphism.
+How many legs have a duck?
+2
+4
+59
+99
+2
+Just ask Miguel for the answer
