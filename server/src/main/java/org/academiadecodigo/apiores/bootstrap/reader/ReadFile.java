@@ -8,6 +8,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+import static java.lang.Integer.parseInt;
+
 public class ReadFile {
 
     private Prompt prompt = new Prompt(System.in, System.out);
@@ -26,7 +28,7 @@ public class ReadFile {
 
     private ArrayList <String []> read () throws Exception{
 
-        bufferedReader = new BufferedReader(new FileReader("/Users/codecadet/Desktop/bootstrap/Bootstrap-Team/src/main/resources/questions.txt"));
+        bufferedReader = new BufferedReader(new FileReader("src/main/resources/questions.txt"));
 
         int i = 0;
 
@@ -82,7 +84,7 @@ public class ReadFile {
 
         int answer = prompt.getUserInput(menuInputScanner);
 
-        if (options[answer].equals(correct)){
+        if (answer == parseInt(correct)){
             System.out.println("Right!! " + explanation);
         }
         else{
