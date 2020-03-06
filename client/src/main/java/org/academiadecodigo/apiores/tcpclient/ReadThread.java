@@ -6,6 +6,10 @@ public class ReadThread implements Runnable {
 
     private TcpClient tcpClient;
 
+    public void setTcpClient(TcpClient tcpClient) {
+        this.tcpClient = tcpClient;
+    }
+
     @Override
     public void run() {
         try{
