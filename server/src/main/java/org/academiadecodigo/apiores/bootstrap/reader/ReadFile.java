@@ -66,7 +66,7 @@ public class ReadFile {
     }
 
 
-    public MenuInputScanner menu (String[] options){
+    private void menu (String[] options){
 
         int j = 0;
 
@@ -86,25 +86,24 @@ public class ReadFile {
         menuInputScanner.setMessage(question);
 
 
-        return menuInputScanner;
+        int answer = prompt.getUserInput(menuInputScanner);
 
-        /*if (answer == parseInt(correct)){
+        if (answer == parseInt(correct)){
             System.out.println("Right!! " + explanation);
         }
         else{
             System.out.println("The right one was " + correct + "\n" + explanation);
-        }*/
+        }
 
     }
 
     public void startQuestions() throws Exception{
 
-        //PrintWriter out = new PrintWriter(myThread.getClientSocket().getOutputStream(), true);
+        PrintWriter out = new PrintWriter(myThread.getClientSocket().getOutputStream(), true);
 
-        //out.println("Hello");
-
-        allQuestions = read();
+        out.println("Hello");
         System.out.println("test");
+        allQuestions = read();
 
         while (allQuestions.size() != 0){
             menu(randomQuestion(allQuestions));
