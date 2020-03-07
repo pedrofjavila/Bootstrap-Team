@@ -22,29 +22,30 @@ public class Server {
 
     private int portNumber = 8080;
     private ServerSocket serverSocket;
-   // private Socket clientSocket;
+    private Socket clientSocket;
     private String msgReceived = "";
     private BufferedReader in;
     private InputStream inputStream;
-    private PrintStream outputStream;
-    private Prompt prompt;
+
+    Prompt prompt;
     private MenuInputScanner scanner;
     private LinkedList<Socket> listUser;
     private ExecutorService cachedPool;
     private PrintWriter out;
     private ReadFile readFile;
     private String username;
+    private MyThread myThread;
+    private int correct;
+    private int total;
 
     private int players = 0;
 
-  //  private List<Socket> countPlayers;
 
 
-    public Server(ReadFile readFile) throws IOException {
+    public Server() throws IOException {
         this.serverSocket = new ServerSocket(portNumber);
         listUser = new LinkedList<>();
-        this.readFile = readFile;
-       // countPlayers = new LinkedList<>();
+
     }
 
 
@@ -54,7 +55,7 @@ public class Server {
         System.out.println("----Waiting for connection----\n");
 
         while (serverSocket.isBound()) {
-           Socket clientSocket = null;
+            //Socket clientSocket = null;
 
             try {
 
@@ -62,10 +63,9 @@ public class Server {
 
                 System.out.println(clientSocket);
 
-                listUser.add(clientSocket);
 
                 System.out.println("-----Connection accepted------");
-                cachedPool.submit(new MyThread(clientSocket));
+                cachedPool.submit(new MyThread());
 
 
                 //inputStream= new DataInputStream(clientSocket.getInputStream());
@@ -83,51 +83,81 @@ public class Server {
 
     public void serveClient(Socket clientSocket) throws IOException {
 
-        PrintWriter printWriter = new PrintWriter(clientSocket.getOutputStream(), true);
+        out = new PrintWriter(clientSocket.getOutputStream(), true);
 
-        printWriter.println("What is yor name?");
+        out.println("What is your name?");
 
-        //out = new PrintWriter(clientSocket.getOutputStream(),true);
 
-        //out.println("What is your name?");
+        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
-        //in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
-        //Thread.currentThread().setName(in.readLine());
-
-        Thread.currentThread().setName(bufferedReader.readLine());
+        Thread.currentThread().setName(in.readLine());
 
         System.out.println(Thread.currentThread().getName() + " is connected\n");
-        //out.println("\nWelcome to the best quiz " +  Thread.currentThread().getName() +"!!!!!!");
+        out.println("\nWelcome to the best quiz " + Thread.currentThread().getName() + "!!!!!!");
 
+       // inputStream = new DataInputStream(clientSocket.getInputStream());
+        //outputStream = new PrintStream(clientSocket.getOutputStream());
+        //prompt = new Prompt(inputStream, outputStream);
+
+        try {
+            readFile.read();
+            total = readFile.getAllQuestions().size();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         //msgReceived = in.readLine();
-        printWriter.println("Please wait for another player");
+        out.println("Please wait for another player");
 
         players++;
-
 
 
         //countPlayers.add(clientSocket);
         int numberOfPlayers = 2;
 
-        while (players < numberOfPlayers){
+        while (players < numberOfPlayers) {
             System.out.println(" ");
         }
 
-        printWriter.println("Can start the game");
+        out.println("Can start the game");
 
-        String clientMessage = bufferedReader.readLine();
+        //String clientMessage = in.readLine();
 
         System.out.println(Thread.currentThread().getName());
-        try {
-            readFile.startQuestions();
-            //prompt.getUserInput(readFile.menu()
 
-        }catch (Exception a){
-            a.getMessage();
+        while (readFile.getAllQuestions().size() > 0) {
+            try {
+
+                 readFile.startQuestions();
+
+
+               // verifyAnswer(prompt.getUserInput(readFile.menu(readFile.randomQuestion(readFile.getAllQuestions()))));
+
+                System.out.println("prompt");
+
+            } catch (Exception a) {
+                a.getMessage();
+            }
+
+        }
+
+        out.println("You got " + correct + " out of " + total);
+        close(clientSocket);
+
+
+    }
+
+    private void verifyAnswer(Integer answer,PrintStream printStream) {
+
+        if (answer == parseInt(readFile.getCorrect())) {
+
+            out.println("Right!! " + readFile.getExplanation());
+
+            correct++;
+
+        } else {
+
+            out.println("The right one was " + readFile.getCorrect() + "\n" + readFile.getExplanation());
         }
 
     }
@@ -145,31 +175,37 @@ public class Server {
             System.out.println("Error closing stream" + a.getMessage());
         }
     }
+    public void startdgdh(){
+
+       try {
+           readFile.startQuestions();
+       }catch (Exception ed){
+           ed.getMessage();
+       }
+    }
 
 
     public class MyThread implements Runnable {
 
-        private Socket clientSocket;
-
-        private MyThread(Socket clientSocket) {
-            this.clientSocket = clientSocket;
-
-        }
-
         @Override
         public void run() {
             try {
+                PrintStream printStream = new PrintStream(clientSocket.getOutputStream());
+                Prompt prompt = new Prompt(clientSocket.getInputStream(),printStream);
+                readFile = new ReadFile(clientSocket);
+                readFile.setPrompt(prompt);
+                listUser.add(clientSocket);
+                  readFile.read();
+                  startdgdh();
+                 // verifyAnswer(prompt.getUserInput(readFile.menu(readFile.randomQuestion(readFile.getAllQuestions()))),printStream);
 
-                //StringInputScanner login = new StringInputScanner();
-                //login.setMessage(Messages.LOGIN_USER);
-                //String username = prompt.getUserInput(login);
-                //System.out.println(Thread.currentThread().getName());
-                serveClient(clientSocket);
-                // out = new PrintWriter(clientSocket.getOutputStream());
-            } catch (IOException a) {
+               // serveClient(clientSocket);
+
+            } catch (Exception a) {
                 a.getMessage();
             }
         }
+
         public Socket getClientSocket() {
             return clientSocket;
         }
