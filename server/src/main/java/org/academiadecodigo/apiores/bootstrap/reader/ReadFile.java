@@ -1,5 +1,6 @@
 package org.academiadecodigo.apiores.bootstrap.reader;
 
+import org.academiadecodigo.apiores.bootstrap.Messages;
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
 
@@ -23,6 +24,7 @@ public class ReadFile {
     private String correct = "";
     private ArrayList <String[]> allQuestions = new ArrayList<>();
     private String explanation = "";
+    private Messages message;
 
 
 
@@ -85,10 +87,10 @@ public class ReadFile {
         int answer = prompt.getUserInput(menuInputScanner);
 
         if (answer == parseInt(correct)){
-            System.out.println("Right!! " + explanation);
+            System.out.println(message.QUESTION_RIGHT + explanation);
         }
         else{
-            System.out.println("The right one was " + correct + "\n" + explanation);
+            System.out.println(message.QUESTION_WRONG +"\nThe correct answer was number: " + correct + "\n" + explanation);
         }
 
     }

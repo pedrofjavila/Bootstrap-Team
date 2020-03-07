@@ -4,7 +4,7 @@ java.util.Set
 java.util.List
 java.util.Collection
 2
-Search for the answer
+Set is the right answer because you can create a TreeSet that can store things in natural order and in which duplicate values cannot be stored.
 Which of the following is not a primitive data type?
 boolean
 byte
@@ -18,7 +18,7 @@ Object
 Lang
 Exception
 2
-OBJECT is the top class so it can not have a superclass
+OBJECT is the top class so it can not have a superclass.
 Elements of an array have the same ______.
 index
 value
@@ -53,7 +53,7 @@ public void setName(String name)
 public void getName()
 public String setName(String name)
 2
-Asdasfafas
+You can set a name for a thread by passing it as an argument whenever you invoke the thread.
 Which is a superclass of all exception classes?
 Throwable
 Exception
@@ -67,3 +67,10 @@ What is the range of the int data type?
 -32,768 to 32,767
 -32,767 to 32,768
 1
+How many pillars of OOP are there?
+2
+5
+3
+4
+4
+The 4 pillars of OOP are: Inheritance, Polimorphism, Encapsulation and Abstraction!
