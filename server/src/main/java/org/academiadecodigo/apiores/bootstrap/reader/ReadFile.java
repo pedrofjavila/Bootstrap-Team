@@ -1,14 +1,19 @@
 package org.academiadecodigo.apiores.bootstrap.reader;
 
+import org.academiadecodigo.apiores.bootstrap.Server;
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
 
-import java.awt.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 
+import static java.lang.Integer.parseInt;
+
 public class ReadFile {
+
+    private InputStream input;
+    private PrintStream output;
+    private Server.MyThread myThread;
 
     private Prompt prompt = new Prompt(System.in, System.out);
 
@@ -26,7 +31,7 @@ public class ReadFile {
 
     private ArrayList <String []> read () throws Exception{
 
-        bufferedReader = new BufferedReader(new FileReader("/Users/codecadet/Desktop/bootstrap/Bootstrap-Team/src/main/resources/questions.txt"));
+        bufferedReader = new BufferedReader(new FileReader("src/main/resources/questions.txt"));
 
         int i = 0;
 
@@ -80,9 +85,10 @@ public class ReadFile {
 
         menuInputScanner.setMessage(question);
 
+
         int answer = prompt.getUserInput(menuInputScanner);
 
-        if (options[answer].equals(correct)){
+        if (answer == parseInt(correct)){
             System.out.println("Right!! " + explanation);
         }
         else{
@@ -92,11 +98,17 @@ public class ReadFile {
     }
 
     public void startQuestions() throws Exception{
+
+        PrintWriter out = new PrintWriter(myThread.getClientSocket().getOutputStream(), true);
+
+        out.println("Hello");
+        System.out.println("test");
         allQuestions = read();
 
         while (allQuestions.size() != 0){
             menu(randomQuestion(allQuestions));
         }
     }
+
 
 }

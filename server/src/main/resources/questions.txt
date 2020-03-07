@@ -1,14 +1,69 @@
-How many pillars are in OOP?
+You need to store elements in a collection that guarantees that no duplicates are stored and all elements can be accessed in natural order. Which interface provides that capability?
+java.util.Map
+java.util.Set
+java.util.List
+java.util.Collection
 2
-4
+Search for the answer
+Which of the following is not a primitive data type?
+boolean
+byte
+string
+double
 3
-5
-4
-The for pillars are encapsulation, abstraction, inheritance, and polymorphism.
-How many legs have a duck?
+String is a reference data type.
+Which of the following doesn't have a superclass?
+System
+Object
+Lang
+Exception
 2
-4
-59
-99
+OBJECT is the top class so it can not have a superclass
+Elements of an array have the same ______.
+index
+value
+datatype
+length
+3
+An array is declared with a datatype or Object.
+Variables that cannot be changed are declared using the keyword _____.
+final
+static
+abstract
+immutable
+1
+Constants are declared with the FINAL keyword.
+What is Recursion in Java?
+Recursion is a class
+Recursion is a process of defining a method that calls other methods repeatedly
+Recursion is a process of defining a method that calls itself repeatedly
+Recursion is a process of defining a method that calls other methods which in turn call again this method
+3
+Recursion is defined by method that calls itself repeatedly.
+How many reserved keywords are currently defined in the Java language?
+48
+49
+50
+47
+49
+There are 51 reserved keywords in JAVA but 2 are not used (const,goto) the answer is 49.
+Which method is used to change the name of a thread?
+public String getName()
+public void setName(String name)
+public void getName()
+public String setName(String name)
 2
-Just ask Miguel for the answer
+Asdasfafas
+Which is a superclass of all exception classes?
+Throwable
+Exception
+RuntimeException
+IOException
+1
+The superclass of all exception is Throwable
+What is the range of the int data type?
+–2,147,483,648 to 2,147,483,647
+-2,147,483,647 to 2,147,483,648
+-32,768 to 32,767
+-32,767 to 32,768
+1
