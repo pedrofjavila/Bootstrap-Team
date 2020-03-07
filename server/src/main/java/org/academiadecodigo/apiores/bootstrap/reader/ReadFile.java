@@ -1,16 +1,23 @@
 package org.academiadecodigo.apiores.bootstrap.reader;
 
+import org.academiadecodigo.apiores.bootstrap.MyThread;
+import org.academiadecodigo.apiores.bootstrap.Server;
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
 
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 
 import static java.lang.Integer.parseInt;
 
 public class ReadFile {
+
+    private InputStream input;
+    private PrintStream output;
+    private PrintWriter ou;
+    private MyThread myThread;
+
 
     private Prompt prompt = new Prompt(System.in, System.out);
 
@@ -94,11 +101,16 @@ public class ReadFile {
     }
 
     public void startQuestions() throws Exception{
+
+        ou = new PrintWriter(myThread.getClientSocket().getOutputStream(), true);
+
+        ou.println("Hello");
         allQuestions = read();
 
         while (allQuestions.size() != 0){
             menu(randomQuestion(allQuestions));
         }
     }
+
 
 }
