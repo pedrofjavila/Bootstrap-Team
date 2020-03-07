@@ -15,6 +15,5 @@ public class Messages {
     public static final String GAME_START = " START ";
     public static final String GAME_OVER = "The game ended. Let's see how good it went!";
     public static final String SCORE = "Your score : ";
-    public static final String WRONG_INPUT= "That is not a valid choice! Try again and choose an option from 1 to 4.";
 
 }
