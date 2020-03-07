@@ -33,6 +33,8 @@ public class Server {
     private ReadFile readFile;
     private String username;
     private MyThread myThread;
+    private int correct;
+    private int total;
 
 
     public Server(ReadFile readFile) throws IOException {
@@ -89,14 +91,51 @@ public class Server {
         System.out.println(Thread.currentThread().getName() + " is connected\n");
         out.println("\nWelcome to the best quiz " +  Thread.currentThread().getName() +"!!!!!!");
 
-        //msgReceived = in.readLine();
+        inputStream = new DataInputStream(clientSocket.getInputStream());
+        outputStream = new PrintStream(clientSocket.getOutputStream());
+        prompt = new Prompt(inputStream,outputStream);
 
         try {
-            readFile.startQuestions();
-            //prompt.getUserInput(readFile.menu()
+            readFile.read();
+            total = readFile.getAllQuestions().size();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        }catch (Exception a){
-            a.getMessage();
+        //msgReceived = in.readLine();
+
+
+
+        while (readFile.getAllQuestions().size() != 0) {
+        try {
+
+                // readFile.startQuestions();
+
+
+                verifyAnswer(prompt.getUserInput(readFile.menu(readFile.randomQuestion(readFile.getAllQuestions()))));
+
+                System.out.println("prompt");
+
+            }catch(Exception a){
+                a.getMessage();
+            }
+
+        }
+
+        out.println("You got " + correct + " out of " + total);
+        close(clientSocket);
+
+
+    }
+
+    private void verifyAnswer(Integer answer) {
+
+        if (answer == parseInt(readFile.getCorrect())){
+            out.println("Right!! " + readFile.getExplanation());
+            correct++;
+        }
+        else{
+            out.println("The right one was " + readFile.getCorrect() + "\n" + readFile.getExplanation());
         }
 
     }

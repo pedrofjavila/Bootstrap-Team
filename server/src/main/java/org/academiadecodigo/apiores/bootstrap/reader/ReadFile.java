@@ -24,12 +24,15 @@ public class ReadFile {
     private String question;
     private String[] finalOptions = new String[4];
     private String correct = "";
+
+
+
     private ArrayList <String[]> allQuestions = new ArrayList<>();
     private String explanation = "";
 
 
 
-    private ArrayList <String []> read () throws Exception{
+    public ArrayList <String []> read () throws Exception{
 
         bufferedReader = new BufferedReader(new FileReader("src/main/resources/questions.txt"));
 
@@ -51,7 +54,7 @@ public class ReadFile {
         return allQuestions;
     }
 
-    private String[] randomQuestion (ArrayList <String[]> allQuestions){
+    public String[] randomQuestion (ArrayList <String[]> allQuestions){
 
         String[] temp;
         int random = (int) (Math.random() * allQuestions.size());
@@ -66,7 +69,7 @@ public class ReadFile {
     }
 
 
-    private void menu (String[] options){
+    public MenuInputScanner menu (String[] options){
 
         int j = 0;
 
@@ -86,22 +89,24 @@ public class ReadFile {
         menuInputScanner.setMessage(question);
 
 
-        int answer = prompt.getUserInput(menuInputScanner);
+        //int answer = prompt.getUserInput(menuInputScanner);
 
-        if (answer == parseInt(correct)){
+        return menuInputScanner;
+
+        /*if (answer == parseInt(correct)){
             System.out.println("Right!! " + explanation);
         }
         else{
             System.out.println("The right one was " + correct + "\n" + explanation);
-        }
+        }*/
 
     }
 
     public void startQuestions() throws Exception{
 
-        PrintWriter out = new PrintWriter(myThread.getClientSocket().getOutputStream(), true);
+        //PrintWriter out = new PrintWriter(myThread.getClientSocket().getOutputStream(), true);
 
-        out.println("Hello");
+        //out.println("Hello");
         System.out.println("test");
         allQuestions = read();
 
@@ -110,5 +115,15 @@ public class ReadFile {
         }
     }
 
+    public ArrayList<String[]> getAllQuestions() {
+        return allQuestions;
+    }
 
+    public String getCorrect() {
+        return correct;
+    }
+
+    public String getExplanation() {
+        return explanation;
+    }
 }
