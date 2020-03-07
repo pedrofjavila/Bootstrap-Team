@@ -2,9 +2,8 @@ package org.academiadecodigo.apiores.bootstrap;
 
 ;import org.academiadecodigo.apiores.bootstrap.reader.ReadFile;
 import org.academiadecodigo.bootcamp.Prompt;
-import org.academiadecodigo.bootcamp.scanners.integer.IntegerInputScanner;
 import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
-import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
+
 
 public class Main {
     private static Messages messages = new Messages();
