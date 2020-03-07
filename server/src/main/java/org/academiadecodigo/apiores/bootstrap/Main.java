@@ -9,13 +9,14 @@ public class Main {
     public static void main(String[] args) {
         ReadFile readFile = new ReadFile();
 
-        Server server = null;
+
         try {
-            server = new Server(readFile);
+            Server server = new Server(readFile);
+            server.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        server.start();
+
 
         /*
 

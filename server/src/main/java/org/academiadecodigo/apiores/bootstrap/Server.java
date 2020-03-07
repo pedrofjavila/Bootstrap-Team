@@ -11,6 +11,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -20,7 +22,7 @@ public class Server {
 
     private int portNumber = 8080;
     private ServerSocket serverSocket;
-    private Socket clientSocket;
+   // private Socket clientSocket;
     private String msgReceived = "";
     private BufferedReader in;
     private InputStream inputStream;
@@ -32,23 +34,27 @@ public class Server {
     private PrintWriter out;
     private ReadFile readFile;
     private String username;
-    private MyThread myThread;
+
+    private int players = 0;
+
+  //  private List<Socket> countPlayers;
 
 
     public Server(ReadFile readFile) throws IOException {
         this.serverSocket = new ServerSocket(portNumber);
         listUser = new LinkedList<>();
         this.readFile = readFile;
+       // countPlayers = new LinkedList<>();
     }
 
 
     public void start() {
 
-        cachedPool = Executors.newFixedThreadPool(4);
+        cachedPool = Executors.newFixedThreadPool(2);
         System.out.println("----Waiting for connection----\n");
 
         while (serverSocket.isBound()) {
-       //     clientSocket = null;
+           Socket clientSocket = null;
 
             try {
 
@@ -77,20 +83,45 @@ public class Server {
 
     public void serveClient(Socket clientSocket) throws IOException {
 
-        out = new PrintWriter(clientSocket.getOutputStream(),true);
+        PrintWriter printWriter = new PrintWriter(clientSocket.getOutputStream(), true);
 
-        out.println("What is your name?");
+        printWriter.println("What is yor name?");
 
+        //out = new PrintWriter(clientSocket.getOutputStream(),true);
 
-        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        //out.println("What is your name?");
 
-        Thread.currentThread().setName(in.readLine());
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+        //in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+        //Thread.currentThread().setName(in.readLine());
+
+        Thread.currentThread().setName(bufferedReader.readLine());
 
         System.out.println(Thread.currentThread().getName() + " is connected\n");
-        out.println("\nWelcome to the best quiz " +  Thread.currentThread().getName() +"!!!!!!");
+        //out.println("\nWelcome to the best quiz " +  Thread.currentThread().getName() +"!!!!!!");
+
 
         //msgReceived = in.readLine();
+        printWriter.println("Please wait for another player");
 
+        players++;
+
+
+
+        //countPlayers.add(clientSocket);
+        int numberOfPlayers = 2;
+
+        while (players < numberOfPlayers){
+            System.out.println(" ");
+        }
+
+        printWriter.println("Can start the game");
+
+        String clientMessage = bufferedReader.readLine();
+
+        System.out.println(Thread.currentThread().getName());
         try {
             readFile.startQuestions();
             //prompt.getUserInput(readFile.menu()
