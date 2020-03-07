@@ -9,9 +9,12 @@ import javax.print.DocFlavor;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import static java.lang.Integer.parseInt;
 
 public class Server {
 
@@ -32,10 +35,10 @@ public class Server {
     private MyThread myThread;
 
 
-    public Server() throws IOException {
+    public Server(ReadFile readFile) throws IOException {
         this.serverSocket = new ServerSocket(portNumber);
         listUser = new LinkedList<>();
-
+        this.readFile = readFile;
     }
 
 
@@ -86,12 +89,11 @@ public class Server {
         System.out.println(Thread.currentThread().getName() + " is connected\n");
         out.println("\nWelcome to the best quiz " +  Thread.currentThread().getName() +"!!!!!!");
 
-        msgReceived = in.readLine();
+        //msgReceived = in.readLine();
 
         try {
-            out.println("1");
             readFile.startQuestions();
-            out.println("2");
+            //prompt.getUserInput(readFile.menu()
 
         }catch (Exception a){
             a.getMessage();
@@ -132,15 +134,16 @@ public class Server {
                 //String username = prompt.getUserInput(login);
                 //System.out.println(Thread.currentThread().getName());
                 serveClient(clientSocket);
-               // out = new PrintWriter(clientSocket.getOutputStream());
+                // out = new PrintWriter(clientSocket.getOutputStream());
             } catch (IOException a) {
                 a.getMessage();
             }
         }
-
+        public Socket getClientSocket() {
+            return clientSocket;
+        }
     }
 
-    public Socket getClientSocket() {
-        return clientSocket;
-    }
+
+
 }

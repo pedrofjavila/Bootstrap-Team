@@ -1,11 +1,9 @@
 package org.academiadecodigo.apiores.bootstrap.reader;
 
-import org.academiadecodigo.apiores.bootstrap.MyThread;
 import org.academiadecodigo.apiores.bootstrap.Server;
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
 
-import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -15,9 +13,7 @@ public class ReadFile {
 
     private InputStream input;
     private PrintStream output;
-    private PrintWriter ou;
-    private MyThread myThread;
-
+    private Server.MyThread myThread;
 
     private Prompt prompt = new Prompt(System.in, System.out);
 
@@ -70,7 +66,7 @@ public class ReadFile {
     }
 
 
-    private void menu (String[] options){
+    public MenuInputScanner menu (String[] options){
 
         int j = 0;
 
@@ -89,23 +85,26 @@ public class ReadFile {
 
         menuInputScanner.setMessage(question);
 
-        int answer = prompt.getUserInput(menuInputScanner);
 
-        if (answer == parseInt(correct)){
+        return menuInputScanner;
+
+        /*if (answer == parseInt(correct)){
             System.out.println("Right!! " + explanation);
         }
         else{
             System.out.println("The right one was " + correct + "\n" + explanation);
-        }
+        }*/
 
     }
 
     public void startQuestions() throws Exception{
 
-        ou = new PrintWriter(myThread.getClientSocket().getOutputStream(), true);
+        //PrintWriter out = new PrintWriter(myThread.getClientSocket().getOutputStream(), true);
 
-        ou.println("Hello");
+        //out.println("Hello");
+
         allQuestions = read();
+        System.out.println("test");
 
         while (allQuestions.size() != 0){
             menu(randomQuestion(allQuestions));
