@@ -15,7 +15,7 @@ public class ReadFile {
 
     private InputStream input;
     private PrintStream printStream;
-    private Server.MyThread myThread;
+    private Server.ServerThread myThread;
 
     private Prompt prompt;
 
@@ -27,7 +27,7 @@ public class ReadFile {
     private String[] finalOptions = new String[4];
     private String correct = "";
     private Socket client;
-    private int certas;
+    private int certas = 0;
     private String name;
 
     private ArrayList <String[]> allQuestions = new ArrayList<>();
@@ -35,6 +35,9 @@ public class ReadFile {
 
     private HashMap<Thread, PrintStream> threadStreamMap = new HashMap<>();
 
+    private HashMap<Socket, PrintStream> socketPrintStreamHashMap = new HashMap<>();
+
+    private HashMap<Socket, Integer> socketMap;
 
 
     public ReadFile(Socket socket) {
@@ -42,6 +45,9 @@ public class ReadFile {
 
         try {
             threadStreamMap.put(Thread.currentThread(), new PrintStream(socket.getOutputStream()));
+
+            socketPrintStreamHashMap.put(socket,new PrintStream(socket.getOutputStream()));
+
         } catch (IOException e) {
             System.err.println("Problem with socket stream connection");
         }
@@ -88,11 +94,8 @@ public class ReadFile {
 
     public void menu (String[] options, Prompt prompt) {
 
-        synchronized (this) {
 
-            notifyAll();
             try {
-                wait();
 
                 int j = 0;
 
@@ -102,7 +105,6 @@ public class ReadFile {
 
 
                 for (int i = 1; i < options.length - 2; i++) {
-
                     finalOptions[j] = options[i];
                     j++;
                 }
@@ -111,42 +113,49 @@ public class ReadFile {
 
                 menuInputScanner.setMessage(question);
 
+
                 int answer = prompt.getUserInput(menuInputScanner);
-                notifyAll();
+
 
 
                 printStream = threadStreamMap.get(Thread.currentThread());
+
+                //printStream = socketPrintStreamHashMap.get(client);
+
 
 
                 if (answer == parseInt(correct)) {
 
                     printStream.println("Right!! " + explanation);
+                    certas++;
 
 
                 } else {
                     printStream.println("The right one was " + correct + "\n" + explanation);
+
                 }
+
             } catch (Exception e) {
-                System.out.println("waiting went wrong");
+            //    System.out.println("waiting went wrong");
             }
 
-
-        }
     }
 
-    public void startQuestions(Prompt prompt) throws Exception{
+    public void startQuestions(HashMap socketMap) throws Exception{
 
-       // PrintWriter out = new PrintWriter(myThread.getClientSocket().getOutputStream(), true);
+        this.socketMap = socketMap;
 
-        //out.println("Hello");
         System.out.println("test");
-        allQuestions = read();
+        //allQuestions = read();
+        System.out.println(allQuestions.size());
+
         while (allQuestions.size() != 0){
             menu(randomQuestion(allQuestions), prompt);
+
         }
     }
 
-    public ArrayList<String[]> getAllQuestions() {
+    public synchronized ArrayList<String[]> getAllQuestions() {
         return allQuestions;
     }
 
@@ -162,4 +171,7 @@ public class ReadFile {
         this.prompt = prompt;
     }
 
+    public int getCertas() {
+        return certas;
+    }
 }
