@@ -27,6 +27,7 @@ public class ReadFile {
     private String correct = "";
     private Socket client;
     private int certas;
+    private String name;
 
     private ArrayList <String[]> allQuestions = new ArrayList<>();
     private String explanation = "";
@@ -72,7 +73,7 @@ public class ReadFile {
     }
 
 
-    public void menu (String[] options){
+    public void menu (String[] options, Prompt prompt){
 
         int j = 0;
 
@@ -112,7 +113,7 @@ public class ReadFile {
 
 }
 
-    public void startQuestions() throws Exception{
+    public void startQuestions(Prompt prompt) throws Exception{
 
        // PrintWriter out = new PrintWriter(myThread.getClientSocket().getOutputStream(), true);
 
@@ -120,10 +121,7 @@ public class ReadFile {
         System.out.println("test");
         allQuestions = read();
         while (allQuestions.size() != 0){
-
-
-
-            menu(randomQuestion(allQuestions));
+            menu(randomQuestion(allQuestions), prompt);
         }
     }
 
@@ -142,4 +140,5 @@ public class ReadFile {
     public void setPrompt(Prompt prompt) {
         this.prompt = prompt;
     }
+
 }
