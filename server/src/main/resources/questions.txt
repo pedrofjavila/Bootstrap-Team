@@ -81,7 +81,7 @@ Public
 Protected
 None of the above
 3
-Protected Classes can be accessed form the classes on the same package and subclasses.
+Protected properties can be accessed from the classes on the same package and subclasses.
 Which class automatically flushes the data so that there is no need to call the flush() method. Moreover, its methods don't throw IOException?
 Console class
 Scanner Class
@@ -109,7 +109,7 @@ Java Verified Machine
 Java Very Small Machine
 Java Virtual Machine
 4
-JVM stands fir Java Virtual Machine
+JVM stands for Java Virtual Machine.
 What is the advantage of Method Overloading?
 Method overloading increases the readability of the program
 Method overloading does not increases the readability of the program

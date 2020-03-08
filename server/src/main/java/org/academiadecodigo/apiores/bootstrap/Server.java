@@ -35,6 +35,7 @@ public class Server {
     private int correct;
     private int total;
     private int numberOfPlayers = 0;
+    private Messages message;
 
     private static int players = 0;
 
@@ -136,16 +137,26 @@ public class Server {
 
             System.out.println(listUser.size());
 
-           // while (listUser.size() < 2) {
-                System.out.println("1");
+            // while (listUser.size() < 2) {
+            //System.out.println("1");
 
             //}
 
 
-            printStream.println("Can start the game");
+            //printStream.println("Can start the game");
 
             //String clientMessage = in.readLine();
 
+
+        }
+
+        public void confirmation() {
+
+            String[] choices = {"Hell yeah!", "Yes!", "I guess...", "Not really, but since I'm here..."};
+            MenuInputScanner confirm = new MenuInputScanner(choices);
+            confirm.setMessage(message.WELCOME_RULES + "\n" + message.WELCOME_RULES1 + "\n" + message.WELCOME_RULES2 + "\n" + message.PLAYER_IS_READY);
+            prompt.getUserInput(confirm);
+            System.out.println(message.PLAYER_READY);
 
         }
 
@@ -157,11 +168,13 @@ public class Server {
                 prompt = new Prompt(clientSocket.getInputStream(), printStream);
                 readFile = new ReadFile();
 
-               readFile.setPrompt(prompt);
+                readFile.setPrompt(prompt);
 
 
                 serveClient(getClientSocket(clientSocket));
+                confirmation();
                 readFile.startQuestions();
+
                 // verifyAnswer(prompt.getUserInput(readFile.menu(readFile.randomQuestion(readFile.getAllQuestions()))),printStream);
 
                 // serveClient(clientSocket);
@@ -171,12 +184,11 @@ public class Server {
             }
         }
 
-        public Socket getClientSocket(Socket clientSocket) {
-            return clientSocket;
-        }
-
-
     }
 
+
+    public Socket getClientSocket(Socket clientSocket) {
+        return clientSocket;
+    }
 
 }

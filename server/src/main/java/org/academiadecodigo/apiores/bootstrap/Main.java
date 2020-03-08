@@ -20,7 +20,6 @@ public class Main {
             server.start();
             ReadFile readFile = new ReadFile();
             System.out.println(messages.WELCOME_MSG);
-            readFile.confirmation();
             readFile.startQuestions();
 
         } catch (Exception e) {

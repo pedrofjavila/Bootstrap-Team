@@ -4,9 +4,9 @@ import org.academiadecodigo.apiores.bootstrap.Messages;
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
 
-import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 import static java.lang.Integer.parseInt;
@@ -24,10 +24,9 @@ public class ReadFile {
     private String explanation = "";
     private Messages message;
     private int score;
-
+    private PrintStream printStream;
 
     private ArrayList<String[]> read() throws Exception {
-
         bufferedReader = new BufferedReader(new FileReader("src/main/resources/questions.txt"));
 
         int i = 0;
@@ -89,13 +88,17 @@ public class ReadFile {
             score += 10;
         } else {
             System.out.println(message.QUESTION_WRONG + "\nThe correct answer was number: " + correct + "\n" + explanation);
+
             score -= 10;
+
+            if (score < 0) {
+                score = 0;
+            }
         }
     }
 
     public void startQuestions() throws Exception {
         allQuestions = read();
-        confirmation();
         while (allQuestions.size() != 0) {
             menu(randomQuestion(allQuestions));
 
@@ -104,17 +107,10 @@ public class ReadFile {
         System.out.println(message.SCORE + score);
     }
 
-    public void confirmation() {
 
-        String[] choices = {"Hell yeah!", "Yes!", "I guess...", "Not really, but since I'm here..."};
-        MenuInputScanner confirm = new MenuInputScanner(choices);
-        confirm.setMessage(message.WELCOME_RULES + "\n" + message.WELCOME_RULES1 + "\n" + message.WELCOME_RULES2 + "\n" + message.PLAYER_IS_READY);
-        prompt.getUserInput(confirm);
-        System.out.println(message.PLAYER_READY);
-
+    public Prompt setPrompt(Prompt prompt) {
+        return this.prompt = prompt;
     }
 
-    public void setPrompt(Prompt prompt) {
-        this.prompt = prompt;
-    }
+
 }
