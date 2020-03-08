@@ -7,13 +7,14 @@ import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static java.lang.Integer.parseInt;
 
 public class ReadFile {
 
     private InputStream input;
-    private PrintStream output;
+    private PrintStream printStream;
     private Server.MyThread myThread;
 
     private Prompt prompt;
@@ -31,9 +32,21 @@ public class ReadFile {
 
     private ArrayList <String[]> allQuestions = new ArrayList<>();
     private String explanation = "";
-    public ReadFile(Socket socket){
+
+    private HashMap<Thread, PrintStream> threadStreamMap = new HashMap<>();
+
+
+
+    public ReadFile(Socket socket) {
         client = socket;
+
+        try {
+            threadStreamMap.put(Thread.currentThread(), new PrintStream(socket.getOutputStream()));
+        } catch (IOException e) {
+            System.err.println("Problem with socket stream connection");
+        }
     }
+
 
 
     public ArrayList <String []> read () throws Exception{
@@ -73,45 +86,53 @@ public class ReadFile {
     }
 
 
-    public void menu (String[] options, Prompt prompt){
+    public void menu (String[] options, Prompt prompt) {
 
-        int j = 0;
+        synchronized (this) {
 
-        question = options[0];
-        correct = options[options.length -2];
-        explanation = options [options.length -1];
+            notifyAll();
+            try {
+                wait();
+
+                int j = 0;
+
+                question = options[0];
+                correct = options[options.length - 2];
+                explanation = options[options.length - 1];
 
 
-        for (int i = 1; i < options.length -2; i++){
+                for (int i = 1; i < options.length - 2; i++) {
 
-                finalOptions[j] = options[i];
-                j++;
+                    finalOptions[j] = options[i];
+                    j++;
+                }
+
+                MenuInputScanner menuInputScanner = new MenuInputScanner(finalOptions);
+
+                menuInputScanner.setMessage(question);
+
+                int answer = prompt.getUserInput(menuInputScanner);
+                notifyAll();
+
+
+                printStream = threadStreamMap.get(Thread.currentThread());
+
+
+                if (answer == parseInt(correct)) {
+
+                    printStream.println("Right!! " + explanation);
+
+
+                } else {
+                    printStream.println("The right one was " + correct + "\n" + explanation);
+                }
+            } catch (Exception e) {
+                System.out.println("waiting went wrong");
+            }
+
+
         }
-
-        MenuInputScanner menuInputScanner = new MenuInputScanner(finalOptions);
-
-        menuInputScanner.setMessage(question);
-
-        int answer = prompt.getUserInput(menuInputScanner);
-
-        try{
-
-        PrintStream printStream = new PrintStream(client.getOutputStream());
-
-        if (answer == parseInt(correct)){
-
-                printStream.println("Right!! " + explanation);
-
-
-        }
-        else{
-            printStream.println("The right one was " + correct + "\n" + explanation);
-        }
-    }catch (IOException ef){
-        ef.getMessage();
     }
-
-}
 
     public void startQuestions(Prompt prompt) throws Exception{
 

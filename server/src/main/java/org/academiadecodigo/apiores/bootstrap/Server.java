@@ -52,6 +52,8 @@ public class Server {
         cachedPool = Executors.newFixedThreadPool(2);
         System.out.println("----Waiting for connection----\n");
         Socket clientSocket = null;
+
+
         while (serverSocket.isBound()) {
             //Socket clientSocket = null;
 
@@ -110,6 +112,7 @@ public class Server {
         public MyThread(Socket clientSocket) {
             this.clientSocket = clientSocket;
         }
+
         public void serveClient(Socket clientSocket) throws IOException {
 
             printStream.println("What is your name?");
