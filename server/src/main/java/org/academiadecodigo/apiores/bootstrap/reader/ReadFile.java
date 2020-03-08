@@ -13,17 +13,27 @@ import static java.lang.Integer.parseInt;
 
 public class ReadFile {
 
-    private Prompt prompt = new Prompt(System.in, System.out);
-    private BufferedReader bufferedReader;
-    private String line = "";
-    private String[] options = new String[7];
-    private String question;
-    private String[] finalOptions = new String[4];
-    private String correct = "";
-    private ArrayList<String[]> allQuestions = new ArrayList<>();
-    private String explanation = "";
-    private Messages message;
+
     private int score;
+    private int numOptions = 4;
+    private int numLineQuestion = 7;
+
+    private Prompt prompt = new Prompt(System.in, System.out);
+
+    private BufferedReader bufferedReader;
+
+    private String[] options = new String[numLineQuestion];
+    private String[] finalOptions = new String[numOptions];
+
+    private String correct = "";
+    private String explanation = "";
+    private String line = "";
+    private String question;
+
+    private ArrayList<String[]> allQuestions = new ArrayList<>();
+
+    private Messages message;
+
     private PrintStream printStream;
 
     private ArrayList<String[]> read() throws Exception {
