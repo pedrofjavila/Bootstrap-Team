@@ -16,7 +16,7 @@ public class TcpClient {
     private Socket clientSocket;
     private Scanner clientReader;
     private BufferedReader reader;
-    private ExecutorService threadPool = Executors.newCachedThreadPool();
+    private ExecutorService threadPool = Executors.newFixedThreadPool(1);
 
 
     public void connectToServer(){
