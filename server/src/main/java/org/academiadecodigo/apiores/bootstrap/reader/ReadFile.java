@@ -14,7 +14,6 @@ import static java.lang.Integer.parseInt;
 public class ReadFile {
 
     private Prompt prompt = new Prompt(System.in, System.out);
-
     private BufferedReader bufferedReader;
     private String line = "";
     private String[] options = new String[7];
@@ -80,7 +79,7 @@ public class ReadFile {
         }
 
         MenuInputScanner menuInputScanner = new MenuInputScanner(finalOptions);
-        int questionsLeft = allQuestions.size()+1;
+        int questionsLeft = allQuestions.size() + 1;
         menuInputScanner.setMessage(question);
         System.out.println("Questions left to answer : " + questionsLeft);
         int answer = prompt.getUserInput(menuInputScanner);
@@ -90,15 +89,16 @@ public class ReadFile {
             score += 10;
         } else {
             System.out.println(message.QUESTION_WRONG + "\nThe correct answer was number: " + correct + "\n" + explanation);
-            score -=10;
+            score -= 10;
         }
     }
 
     public void startQuestions() throws Exception {
         allQuestions = read();
-
+        confirmation();
         while (allQuestions.size() != 0) {
             menu(randomQuestion(allQuestions));
+
         }
 
         System.out.println(message.SCORE + score);
@@ -112,5 +112,9 @@ public class ReadFile {
         prompt.getUserInput(confirm);
         System.out.println(message.PLAYER_READY);
 
+    }
+
+    public void setPrompt(Prompt prompt) {
+        this.prompt = prompt;
     }
 }
