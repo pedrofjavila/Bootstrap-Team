@@ -34,6 +34,7 @@ public class Server {
     private MyThread myThread;
     private int correct;
     private int total;
+    private int numberOfPlayers = 0;
 
     private static int players = 0;
 
@@ -55,6 +56,7 @@ public class Server {
             //Socket clientSocket = null;
 
             try {
+
 
                 clientSocket = serverSocket.accept();
 
@@ -110,7 +112,6 @@ public class Server {
         }
         public void serveClient(Socket clientSocket) throws IOException {
 
-
             printStream.println("What is your name?");
 
 
@@ -118,14 +119,20 @@ public class Server {
 
             Thread.currentThread().setName(in.readLine());
 
+            numberOfPlayers ++;
+
             //System.out.println(Thread.currentThread().getName() + " is connected\n");
 
             printStream.println("\nWelcome to the best quiz " + Thread.currentThread().getName() + "!!!!!!");
 
-            int numbeOfPlayers = 1;
-            listUser.put(numbeOfPlayers,clientSocket);
-            numbeOfPlayers ++;
-            printStream.println("Please wait for another player");
+            printStream.println("Waiting for another player...");
+
+            while (numberOfPlayers <2){
+                System.out.println("");
+            }
+
+            listUser.put(numberOfPlayers,clientSocket);
+
             System.out.println(listUser.size());
 
             //while (listUser.size() < 2) {
