@@ -45,7 +45,7 @@ How many reserved keywords are currently defined in the Java language?
 49
 50
 47
-49
+2
 There are 51 reserved keywords in JAVA but 2 are not used (const,goto) the answer is 49.
 Which method is used to change the name of a thread?
 public String getName()
@@ -53,7 +53,7 @@ public void setName(String name)
 public void getName()
 public String setName(String name)
 2
-Asdasfafas
+public void setName (String name) can be used to set a name to Thread or other entity
 Which is a superclass of all exception classes?
 Throwable
 Exception
@@ -67,3 +67,200 @@ What is the range of the int data type?
 -32,768 to 32,767
 -32,767 to 32,768
 1
+int -- 4 bytes -- Stores whole numbers from -2,147,483,648 to 2,147,483,647
+Which is a mechanism where one object acquires all the properties and behaviours of the parent object?
+Inheritance
+Encapsulation
+Polymorphism
+None of the above
+1
+Inheritance is the design technique to implement IS-A relationship in classes. It allows classes to be derived from other classes, thereby inheriting their fields and methods.
+Which class members can be accessed from the classes in the same package as well as classes in other Packages that are subclasses of the declaring class?
+private
+Public
+Protected
+None of the above
+3
+Protected Classes can be accessed form the classes on the same package and subclasses.
+Which class automatically flushes the data so that there is no need to call the flush() method. Moreover, its methods don't throw IOException?
+Console class
+Scanner Class
+FileInputStream class
+PrintStream class
+4
+PrintWriter methods never throw I/O exceptions, if automatic flushing is enabled it will be done only when one of the println, printf, or format methods is invoked
+Which keyword is used when a program does not want to handle an exception?
+Throws
+Try
+Catch
+Final
+1
+Check JavaDoc
+Which method waits for a thread to die?
+stop()
+start()
+terminate()
+join()
+4
+The join method allows one thread to wait for the completion of another.
+JVM stands for?
+Java Very Large Machine
+Java Verified Machine
+Java Very Small Machine
+Java Virtual Machine
+4
+JVM stands fir Java Virtual Machine
+What is the advantage of Method Overloading?
+Method overloading increases the readability of the program
+Method overloading does not increases the readability of the program
+Method overloading does not increases the reliability of the program
+None of the above
+1
+Method overloading increases the readability
+Which symbol is used to contain the values of automatically initialised arrays. Also used to define a block of code, for classes, methods, and local scopes?
+Brackets
+Braces
+Parentheses
+Semicolon
+1
+{} are your friends
+Which method is used in thread class to starts the execution of the thread?
+public void start()
+public void run()
+public void stop()
+public void suspend()
+1
+The method Thread.start() starts the execution, while run() implements Runnable on the code to use the thread
+Which of the following is not part of the OOP pillars?
+Abstraction
+Inheritance
+Interface
+Polymorphism
+3
+The pillars of the OOP are APIE -Abstraction, Polymorphism,Inheritance,Encapsulation
+In java, float variables takes _________ bytes in memory.
+2
+8
+4
+16
+3
+Float -- 4 bytes
+Which tool is required on each machine to run a Java program?
+JDK
+SDK
+JRE
+CVS
+3
+Java Runtime Environment is required to run a Java Program
+Which of the following Collection are synchronised by nature ?
+Vector
+SortedSet
+ArrayList
+HashMap
+1
+The synchronised collection classes include Vector, Hashtable
+Which of the following answers are true about Design Pattern?
+A common solution for a piece of code
+There are 5 types of Design Patterns
+A general repeatable solution to a commonly occurring problem in software design
+Design Pattern are very strict to the solution
+3
+Design Patter are a general repeatable solution to a commonly occurring problem in software design
+Which of the following are not a Type of Design Pattern
+Structural
+Builder
+Creational
+Behavioural
+2
+The types of Design Patterns are Creational, Structural and Behavioural
+Which of the following does not belong to the MVC Architectural Pattern?
+Commander
+Model
+View
+Controller
+1
+MVC stands for MODEL VIEW CONTROLLER
+Which Software Development Methodologies are more suitable to big projects
+Scrum
+Lean
+Kanban
+Waterfall
+4
+Waterfall due to a strict approach are suitable to big projects on large organizations
+ICMP belongs to which layer on the TCP/IP model?
+Data-link
+Network
+Application
+Transport
+2
+ICMP - Internet Control Message Protocol is on the Network Layer
+Which of the following are not a Routing Protocol
+BGP
+ISIS
+IGMP
+OSPF
+3
+BGP, ISIS and OSPF are Routing Protocols while IGMP is used for Multicast
+IPV4 uses 32bit address while IPV6 uses _________ bit address
+64
+128
+256
+255
+2
+IPV6 uses 128 bit address
+The subnet mask of /23 means that the we can use _________ address for hosts.
+254
+256
+510
+512
+3
+/23 means 23 bits on the subnet leaving 9 bits for host (1x2^9 = 512) - address for network and broadcast
+You need to develop a client program using TCP , which type of socket you should use?
+java.net.ServerSocket
+java.net.Socket
+java.net.DatagramSocket
+java.net.SocketImpl
+3
+java.net.Socket implements TCP client sockets, capable of connecting to a specified server and port
+Which of the following is a IPV4 private address?
+12.10.10.31/8
+172.31.255.31/24
+192.169.0.31/24
+192.158.0.31/24
+2
+IPv4 Private address are 10.0.0.0 - 10.255.255.255, 172.16.0.0 - 172.31.255.255 , 192.168.0.0 - 192.168.255.255
+Scrum uses roles for each team, which of the following is not a role from Scrum
+Product Owner
+Scrum Master
+Development team
+Scrum Inspector
+4
+The team roles of Scrum are Product Owner, Scrum Master and Development Team
+On the following Nested Classes which one is not an Inner Nested Class?
+Inner Class
+Local Class
+Anonymous Class
+Static Nested Class
+4
+Nested Classes are divided in static and non-static Nested Classes, Inner Classes are non-static
+What is the correct way to initialize an object
+Class Name = new class();
+Class name = new Class();
+class name = new Class();
+Class Name = new Class();
+2
+Uppercase lowercase = new Uppercase;
+What is the symbol for the logical operator AND?
+&&
+||
+\\
+%%
+1
+&& is Logical AND, returns true if both statements are true
+What is the symbol for the logical operator OR?
+&&
+||
+\\
+%%
+2
+|| is Logical Or, returns true if one of the statements is true
