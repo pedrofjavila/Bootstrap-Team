@@ -16,7 +16,7 @@ public class TcpClient {
     private Socket clientSocket;
     private Scanner clientReader;
     private BufferedReader reader;
-    private ExecutorService threadPool = Executors.newCachedThreadPool();
+    private ExecutorService threadPool = Executors.newFixedThreadPool(1);
 
 
     public void connectToServer(){
@@ -40,7 +40,7 @@ public class TcpClient {
         }catch (IOException a){
             a.getMessage();
         }
-
+        closeAll();
     }
 
 
@@ -81,7 +81,7 @@ public class TcpClient {
     }
 
 
-    public void close(){
+    public void closeAll(){
         close(outPut);
         close(reader);
         close(clientSocket);

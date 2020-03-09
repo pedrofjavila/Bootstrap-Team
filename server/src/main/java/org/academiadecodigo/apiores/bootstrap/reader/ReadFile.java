@@ -1,5 +1,6 @@
 package org.academiadecodigo.apiores.bootstrap.reader;
 
+import org.academiadecodigo.apiores.bootstrap.Messages;
 import org.academiadecodigo.apiores.bootstrap.Server;
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
@@ -13,40 +14,30 @@ import static java.lang.Integer.parseInt;
 
 public class ReadFile {
 
-    private InputStream input;
     private PrintStream printStream;
-    private Server.ServerThread myThread;
-
-    private Prompt prompt;
-
     private BufferedReader bufferedReader;
-
     private String line = "";
     private String[] options = new String[7];
     private String question;
     private String[] finalOptions = new String[4];
     private String correct = "";
     private Socket client;
-    private int certas = 0;
-    private String name;
-
-    private ArrayList <String[]> allQuestions = new ArrayList<>();
+    private int correctAnswer = 0;
+    private ArrayList<String[]> allQuestions = new ArrayList<>();
     private String explanation = "";
-
     private HashMap<Thread, PrintStream> threadStreamMap = new HashMap<>();
-
     private HashMap<Socket, PrintStream> socketPrintStreamHashMap = new HashMap<>();
 
-    private HashMap<Socket, Integer> socketMap;
 
-
-    public ReadFile(Socket socket) {
-        client = socket;
+    public ReadFile(Socket socket, PrintStream printStream) {
+        this.client = socket;
+        this.printStream = printStream;
 
         try {
             threadStreamMap.put(Thread.currentThread(), new PrintStream(socket.getOutputStream()));
 
-            socketPrintStreamHashMap.put(socket,new PrintStream(socket.getOutputStream()));
+            socketPrintStreamHashMap.put(socket, new PrintStream(socket.getOutputStream()));
+
 
         } catch (IOException e) {
             System.err.println("Problem with socket stream connection");
@@ -54,19 +45,18 @@ public class ReadFile {
     }
 
 
-
-    public ArrayList <String []> read () throws Exception{
+    public ArrayList<String[]> read() throws Exception {
 
         bufferedReader = new BufferedReader(new FileReader("src/main/resources/questions.txt"));
 
         int i = 0;
 
-        while ((line = bufferedReader.readLine()) != null){
+        while ((line = bufferedReader.readLine()) != null) {
 
             options[i] = line;
             i++;
 
-            if (i % 7 == 0){
+            if (i % 7 == 0) {
                 allQuestions.add(options);
                 i = 0;
                 options = new String[7];
@@ -77,7 +67,7 @@ public class ReadFile {
         return allQuestions;
     }
 
-    public String[] randomQuestion (ArrayList <String[]> allQuestions){
+    public String[] randomQuestion(ArrayList<String[]> allQuestions) {
 
         String[] temp;
         int random = (int) (Math.random() * allQuestions.size());
@@ -86,92 +76,55 @@ public class ReadFile {
 
         allQuestions.remove(random);
 
-
         return temp;
 
     }
 
 
-    public void menu (String[] options, Prompt prompt) {
+    public void menu(String[] options, Prompt prompt) {
 
+        try {
+            int j = 0;
+            question = options[0];
+            correct = options[options.length - 2];
+            explanation = options[options.length - 1];
 
-            try {
-
-                int j = 0;
-
-                question = options[0];
-                correct = options[options.length - 2];
-                explanation = options[options.length - 1];
-
-
-                for (int i = 1; i < options.length - 2; i++) {
-                    finalOptions[j] = options[i];
-                    j++;
-                }
-
-                MenuInputScanner menuInputScanner = new MenuInputScanner(finalOptions);
-
-                menuInputScanner.setMessage(question);
-
-
-                int answer = prompt.getUserInput(menuInputScanner);
-
-
-
-                printStream = threadStreamMap.get(Thread.currentThread());
-
-                //printStream = socketPrintStreamHashMap.get(client);
-
-
-
-                if (answer == parseInt(correct)) {
-
-                    printStream.println("Right!! " + explanation);
-                    certas++;
-
-
-                } else {
-                    printStream.println("The right one was " + correct + "\n" + explanation);
-
-                }
-
-            } catch (Exception e) {
-            //    System.out.println("waiting went wrong");
+            for (int i = 1; i < options.length - 2; i++) {
+                finalOptions[j] = options[i];
+                j++;
             }
 
-    }
 
-    public void startQuestions(HashMap socketMap) throws Exception{
+            MenuInputScanner menuInputScanner = new MenuInputScanner(finalOptions);
 
-        this.socketMap = socketMap;
+            menuInputScanner.setMessage(question);
 
-        System.out.println("test");
-        //allQuestions = read();
-        System.out.println(allQuestions.size());
+            int answer = prompt.getUserInput(menuInputScanner);
 
-        while (allQuestions.size() != 0){
-            menu(randomQuestion(allQuestions), prompt);
+            printStream = threadStreamMap.get(Thread.currentThread());
 
+            if (answer == parseInt(correct)) {
+
+                printStream.println(Messages.QUESTION_RIGHT + explanation);
+                correctAnswer++;
+
+
+            } else {
+                printStream.println(Messages.QUESTION_WRONG +"\nThe right one was " + correct + "\n" + explanation);
+
+            }
+
+        } catch (Exception e) {
+            e.getMessage();
         }
+
     }
 
     public synchronized ArrayList<String[]> getAllQuestions() {
         return allQuestions;
     }
 
-    public String getCorrect() {
-        return correct;
-    }
-
-    public String getExplanation() {
-        return explanation;
-    }
-
-    public void setPrompt(Prompt prompt) {
-        this.prompt = prompt;
-    }
-
-    public int getCertas() {
-        return certas;
+    public int getCorrectAnswer() {
+        return correctAnswer;
     }
 }
